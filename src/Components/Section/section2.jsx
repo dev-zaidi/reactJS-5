@@ -7,12 +7,16 @@ import {
   CardMedia,
   Grid,
   Typography,
+  useMediaQuery,
+  useTheme,
 } from '@mui/material';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
 export default function SectionWithTextAndCarousel() {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm')); // Small screen breakpoint
 
   const items = [
     {
@@ -45,37 +49,18 @@ export default function SectionWithTextAndCarousel() {
       title: 'Innovative Drives',
       description: 'Pioneering technology in cars',
     },
-    {
-      img: 'https://via.placeholder.com/400x300',
-      title: 'Luxury Experience',
-      description: 'Redefining comfort with every drive',
-    },
-    {
-      img: 'https://via.placeholder.com/400x300',
-      title: 'Eco Drive',
-      description: 'Sustainability at its best',
-    },
-    {
-      img: 'https://via.placeholder.com/400x300',
-      title: 'Connected World',
-      description: 'Integrating technology with driving',
-    },
-    {
-      img: 'https://via.placeholder.com/400x300',
-      title: 'Future Mobility',
-      description: 'Envisioning tomorrow’s transportation',
-    },
   ];
 
-  // Determine visible cards based on the current index
-  const visibleItems = items.slice(currentIndex, currentIndex + 4);
+  // Adjust the number of visible cards based on screen size
+  const cardsPerView = isSmallScreen ? 1 : 4;
+  const visibleItems = items.slice(currentIndex, currentIndex + cardsPerView);
 
   const handlePrev = () => {
     if (currentIndex > 0) setCurrentIndex(currentIndex - 1);
   };
 
   const handleNext = () => {
-    if (currentIndex < items.length - 4) setCurrentIndex(currentIndex + 1);
+    if (currentIndex < items.length - cardsPerView) setCurrentIndex(currentIndex + 1);
   };
 
   return (
@@ -83,10 +68,7 @@ export default function SectionWithTextAndCarousel() {
       <Grid container spacing={4}>
         {/* Left Text Section (4 columns) */}
         <Grid item xs={12} md={4}>
-          <Typography
-            variant="h4"
-            sx={{ fontWeight: 'bold', marginBottom: 2 }}
-          >
+          <Typography variant="h4" sx={{ fontWeight: 'bold', marginBottom: 2 }}>
             THE BMW PODCAST: CHANGING LANES
           </Typography>
           <Typography variant="body1" sx={{ marginBottom: 2 }}>
@@ -139,7 +121,7 @@ export default function SectionWithTextAndCarousel() {
             <Box
               sx={{
                 display: 'grid',
-                gridTemplateColumns: 'repeat(4, 1fr)',
+                gridTemplateColumns: `repeat(${cardsPerView}, 1fr)`,
                 gap: 2,
                 flexGrow: 1,
               }}
@@ -153,6 +135,7 @@ export default function SectionWithTextAndCarousel() {
                     display: 'flex',
                     flexDirection: 'column',
                     height: '300px',
+                    
                   }}
                 >
                   <CardMedia
@@ -174,7 +157,7 @@ export default function SectionWithTextAndCarousel() {
             {/* Right Arrow */}
             <Button
               onClick={handleNext}
-              disabled={currentIndex >= items.length - 4}
+              disabled={currentIndex >= items.length - cardsPerView}
               sx={{
                 color: '#fff',
                 minWidth: '40px',
