@@ -15,10 +15,9 @@ const LandingPage = ({onLogout}) => {
     return (
       <div className='container-fluid'>
         <HideAppBar/>
-        {/* <FullWidthBox /> */}
-        {/* <TwoIdenticalBlocks/> */}
+        <FullWidthBox />
+        <TwoIdenticalBlocks/>
         <TextWithCarousel/>
-       
         <SectionWithTextAndCarousel/>
         <BMWRow/>
         <StandardImageList/>
